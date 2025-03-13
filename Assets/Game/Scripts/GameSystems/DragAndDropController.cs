@@ -35,6 +35,9 @@ namespace Game.GameSystems
 
         public void OnDrag(PointerEventData eventData)
         {
+            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(eventData.position);
+            worldPosition.z = 0;
+            transform.position = worldPosition;
             Debug.Log("OnDrag");
         }
 

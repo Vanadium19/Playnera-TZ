@@ -1,7 +1,7 @@
 ﻿using R3;
 using UnityEngine;
 
-namespace Game.Scripts.Gameplay.GameSystems.Inputs
+namespace Game.GameSystems.Inputs
 {
     public interface IMousePosition
     {

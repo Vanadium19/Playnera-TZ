@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace Game.Scripts.Gameplay.GameSystems.Inputs
+namespace Game.GameSystems.Inputs
 {
-    [CreateAssetMenu(fileName = "InputInstaller",
-        menuName = "Zenject/New InputInstaller")]
-    public class InputInstaller : ScriptableObjectInstaller
+    public class InputInstaller : Installer<InputInstaller>
     {
         public override void InstallBindings()
         {

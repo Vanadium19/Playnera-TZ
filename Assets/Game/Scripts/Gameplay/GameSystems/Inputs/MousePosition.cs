@@ -3,7 +3,7 @@ using R3;
 using UnityEngine;
 using Zenject;
 
-namespace Game.Scripts.Gameplay.GameSystems.Inputs
+namespace Game.GameSystems.Inputs
 {
     public class MousePosition : IInitializable, IMousePosition
     {

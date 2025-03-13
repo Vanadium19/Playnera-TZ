@@ -1,4 +1,5 @@
 using System;
+using Game.GameObjects.Content;
 using Game.Scripts.Gameplay.GameSystems.Inputs;
 using R3;
 using UnityEngine;
@@ -12,15 +13,17 @@ namespace Game.GameSystems.Controllers
         // IPointerEnterHandler,
         // IPointerExitHandler,
         IBeginDragHandler,
-        // IDragHandler,
+        IDragHandler,
         IEndDragHandler
     {
+        private IItem _item;
         private IMousePosition _mousePosition;
         private IDisposable _disposable;
 
         [Inject]
-        public void Construct(IMousePosition mousePosition)
+        public void Construct(IItem item, IMousePosition mousePosition)
         {
+            _item = item;
             _mousePosition = mousePosition;
         }
 
@@ -42,17 +45,19 @@ namespace Game.GameSystems.Controllers
         public void OnBeginDrag(PointerEventData eventData)
         {
             Debug.Log("OnBeginDrag");
-            _disposable = _mousePosition.Value.Subscribe(position => transform.position = position);
+            _disposable = _mousePosition.Value.Subscribe(position => _item.SetPosition(position));
         }
 
-        // public void OnDrag(PointerEventData eventData)
-        // {
-        //     Debug.Log("OnDrag");
-        // }
+        public void OnDrag(PointerEventData eventData)
+        {
+            Debug.Log("OnDrag");
+        }
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            Debug.Log("OnEndDrag");
             _disposable?.Dispose();
+            _item.Drop();
         }
     }
 }

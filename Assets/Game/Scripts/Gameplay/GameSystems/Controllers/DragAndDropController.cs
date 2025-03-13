@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Game.GameSystems
+namespace Game.GameSystems.Controllers
 {
     public class DragAndDropController : MonoBehaviour,
         IPointerDownHandler,

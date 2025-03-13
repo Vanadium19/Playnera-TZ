@@ -1,5 +1,4 @@
 ﻿using System;
-using Game.Common;
 using Game.GameObjects.Content;
 using Game.GameSystems.Inputs;
 using Game.Modules.Entities;
@@ -13,14 +12,18 @@ namespace Game.GameSystems.Controllers
     {
         private const int ColliderBufferSize = 5;
 
+        private readonly IWorldBounds _worldBounds;
         private readonly IMousePosition _mousePosition;
         private readonly Transform _cameraTransform;
 
         private IDisposable _disposable;
         private Vector3 _dragPosition;
 
-        public CameraController(IMousePosition mousePosition, Transform cameraTransform)
+        public CameraController(IWorldBounds worldBounds,
+            IMousePosition mousePosition,
+            Transform cameraTransform)
         {
+            _worldBounds = worldBounds;
             _mousePosition = mousePosition;
             _cameraTransform = cameraTransform;
         }
@@ -49,8 +52,14 @@ namespace Game.GameSystems.Controllers
 
         private void SetCameraPosition(Vector3 position)
         {
+            Vector3 newPosition = _cameraTransform.position;
             Vector3 difference = _dragPosition - position;
-            _cameraTransform.position += difference;
+
+            newPosition += difference;
+            newPosition = _worldBounds.Clamp(newPosition);
+            newPosition.y = _cameraTransform.position.y;
+
+            _cameraTransform.position = newPosition;
         }
 
         public void Dispose()

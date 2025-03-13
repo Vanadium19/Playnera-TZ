@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a0386948a9d44bd82d23afd9bdefb85, type: 3}
   m_Name: GameSceneInstaller
   m_EditorClassIdentifier: 
+  _minXPosition: -3.5
+  _maxXPosition: 3.5

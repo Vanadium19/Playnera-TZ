@@ -1,9 +1,10 @@
 ﻿using Game.Modules.Entities;
+using R3;
 using UnityEngine;
 
 namespace Game.GameObjects.Content
 {
-    public class Item : IItem
+    public class Item : IItem, IItemObservable
     {
         private const int ColliderBufferSize = 5;
         private const float OverlapAngle = 0f;
@@ -12,11 +13,23 @@ namespace Game.GameObjects.Content
         private readonly Rigidbody2D _rigidbody;
         private readonly Vector2 _size;
 
+        private readonly ReactiveCommand _dropCommand = new();
+        private readonly ReactiveCommand _pickupCommand = new();
+
         public Item(Transform transform, Rigidbody2D rigidbody, Vector2 size)
         {
             _transform = transform;
             _rigidbody = rigidbody;
             _size = size;
+        }
+
+        public Observable<Unit> DropObservable => _dropCommand;
+        public Observable<Unit> PickupObservable => _pickupCommand;
+
+        public void Pickup()
+        {
+            _rigidbody.isKinematic = true;
+            _pickupCommand.Execute(Unit.Default);
         }
 
         public void Drop()
@@ -45,19 +58,15 @@ namespace Game.GameObjects.Content
 
             arrayPool.Return(colliders);
             _rigidbody.isKinematic = findParent;
+            _dropCommand.Execute(Unit.Default);
         }
 
         public void SetPosition(Vector3 position)
         {
-            if (!_rigidbody.isKinematic)
+            if (_rigidbody.isKinematic == false)
                 _rigidbody.isKinematic = true;
 
             _transform.position = position;
-        }
-
-        public void SetKinematic(bool value)
-        {
-            _rigidbody.isKinematic = value;
         }
 
         private void SetOnShelf(IShelf shelf)

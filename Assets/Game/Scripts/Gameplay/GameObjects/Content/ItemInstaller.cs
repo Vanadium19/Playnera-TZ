@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.GameObjects.View;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
@@ -7,9 +8,12 @@ namespace Game.GameObjects.Content
 {
     public class ItemInstaller : MonoInstaller
     {
-        [SerializeField] private Transform _transform;
+        [Header("Components")] [SerializeField] private Transform _transform;
         [SerializeField] private Rigidbody2D _rigidbody;
-        [SerializeField] private Vector2 _overlapSize;
+
+        [Header("Settings")] [SerializeField] private Vector2 _overlapSize;
+
+        [Header("View")] [SerializeField] private ItemView _view;
 
         public override void InstallBindings()
         {
@@ -25,6 +29,14 @@ namespace Game.GameObjects.Content
                 .AsSingle()
                 .WithArguments(_overlapSize)
                 .NonLazy();
+
+            Container.BindInterfacesTo<ItemPresenter>()
+                .AsSingle()
+                .NonLazy();
+
+            Container.Bind<ItemView>()
+                .FromInstance(_view)
+                .AsSingle();
         }
 
 #if UNITY_EDITOR

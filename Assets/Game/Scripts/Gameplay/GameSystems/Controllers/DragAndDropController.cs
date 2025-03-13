@@ -39,20 +39,23 @@ namespace Game.GameSystems.Controllers
         // {
         //     Debug.Log("OnPointerDown");
         // }
-        //
+
         public void OnPointerEnter(PointerEventData eventData)
         {
+            Debug.Log("OnPointerEnter");
             _gameStateScheduler.ChangeState(GameState.ReadyToMoveItem);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            Debug.Log("OnPointerExit");
             _gameStateScheduler.ChangeState(GameState.CalmState);
         }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            _item.SetKinematic(true);
+            Debug.Log("OnBeginDrag");
+            _item.Pickup();
             _gameStateScheduler.ChangeState(GameState.ItemMoving);
             _disposable = _mousePosition.Value.Subscribe(SetItemPosition);
         }
@@ -63,6 +66,7 @@ namespace Game.GameSystems.Controllers
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            Debug.Log("OnEndDrag");
             _gameStateScheduler.ChangeState(GameState.CalmState);
             _disposable?.Dispose();
             _item.Drop();

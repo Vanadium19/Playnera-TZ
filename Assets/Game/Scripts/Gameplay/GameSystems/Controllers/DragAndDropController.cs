@@ -1,5 +1,4 @@
 ﻿using System;
-using Game.Common;
 using Game.GameObjects.Content;
 using Game.GameSystems.Inputs;
 using R3;
@@ -10,9 +9,6 @@ using Zenject;
 namespace Game.GameSystems.Controllers
 {
     public class DragAndDropController : MonoBehaviour,
-        // IPointerDownHandler,
-        // IPointerEnterHandler,
-        // IPointerExitHandler,
         IBeginDragHandler,
         IDragHandler,
         IEndDragHandler
@@ -32,24 +28,8 @@ namespace Game.GameSystems.Controllers
             _mousePosition = mousePosition;
         }
 
-        // public void OnPointerDown(PointerEventData eventData)
-        // {
-        //     Debug.Log("OnPointerDown");
-        // }
-
-        // public void OnPointerEnter(PointerEventData eventData)
-        // {
-        //     Debug.Log("OnPointerEnter");
-        // }
-        //
-        // public void OnPointerExit(PointerEventData eventData)
-        // {
-        //     Debug.Log("OnPointerExit");
-        // }
-
         public void OnBeginDrag(PointerEventData eventData)
         {
-            Debug.Log("OnBeginDrag");
             _item.Pickup();
             _disposable = _mousePosition.Value.Subscribe(SetItemPosition);
         }
@@ -60,7 +40,6 @@ namespace Game.GameSystems.Controllers
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            Debug.Log("OnEndDrag");
             _disposable?.Dispose();
             _item.Drop();
         }

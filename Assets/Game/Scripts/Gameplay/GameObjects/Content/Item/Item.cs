@@ -9,7 +9,6 @@ namespace Game.GameObjects.Content
     {
         private const int ColliderBufferSize = 5;
         private const float ClampDelay = 0.2f;
-        private const float OverlapAngle = 0f;
 
         private readonly Transform _transform;
         private readonly Rigidbody2D _rigidbody;

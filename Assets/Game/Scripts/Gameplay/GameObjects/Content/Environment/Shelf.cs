@@ -8,7 +8,6 @@ namespace Game.GameObjects.Content
         private readonly float _minX;
         private readonly float _maxX;
 
-
         public Shelf(Transform transform, ShelfParams shelfParams)
         {
             _positionY = transform.position.y + shelfParams.OffsetY;

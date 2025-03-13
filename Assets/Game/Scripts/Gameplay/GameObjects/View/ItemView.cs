@@ -26,8 +26,6 @@ namespace Game.GameObjects.View
         public void Construct(AudioSource audioSource)
         {
             _audioSource = audioSource;
-
-            Debug.Log(_audioSource != null ? "AudioSource injected" : "AudioSource not injected");
         }
 
         public void PickUp()

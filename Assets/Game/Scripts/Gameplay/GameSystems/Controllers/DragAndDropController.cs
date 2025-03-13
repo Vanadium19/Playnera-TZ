@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Game.GameObjects.Content;
 using Game.Scripts.Gameplay.GameSystems.Inputs;
 using R3;
@@ -45,6 +45,8 @@ namespace Game.GameSystems.Controllers
         public void OnBeginDrag(PointerEventData eventData)
         {
             Debug.Log("OnBeginDrag");
+            
+            _item.SetKinematic(true);
             _disposable = _mousePosition.Value.Subscribe(position => _item.SetPosition(position));
         }
 

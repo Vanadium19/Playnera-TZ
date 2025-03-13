@@ -5,14 +5,14 @@ namespace Game.GameObjects.Content
     public class Shelf : IShelf
     {
         private readonly Transform _transform;
-        private readonly Vector3 _offset;
+        private readonly float _offsetY;
 
-        public Shelf(Transform transform, Vector3 offset)
+        public Shelf(Transform transform, float offsetY)
         {
             _transform = transform;
-            _offset = offset;
+            _offsetY = offsetY;
         }
 
-        public Vector3 Position => _transform.position + _offset;
+        public float PositionY => _transform.position.y + _offsetY;
     }
 }

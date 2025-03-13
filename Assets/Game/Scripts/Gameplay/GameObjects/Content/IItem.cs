@@ -6,5 +6,6 @@ namespace Game.GameObjects.Content
     {
         public void Drop();
         public void SetPosition(Vector3 position);
+        public void SetKinematic(bool value);
     }
 }

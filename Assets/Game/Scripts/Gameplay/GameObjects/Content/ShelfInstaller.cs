@@ -6,7 +6,7 @@ namespace Game.GameObjects.Content
     public class ShelfInstaller : MonoInstaller
     {
         [SerializeField] private Transform _transform;
-        [SerializeField] private Vector3 _offset;
+        [SerializeField] private float _offsetY;
 
         public override void InstallBindings()
         {
@@ -16,7 +16,7 @@ namespace Game.GameObjects.Content
 
             Container.BindInterfacesTo<Shelf>()
                 .AsSingle()
-                .WithArguments(_offset)
+                .WithArguments(_offsetY)
                 .NonLazy();
         }
 
@@ -26,8 +26,11 @@ namespace Game.GameObjects.Content
             if (_transform == null)
                 return;
 
+            Vector3 position = _transform.position;
+            position.y += _offsetY;
+
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(_transform.position + _offset, 0.2f);
+            Gizmos.DrawWireSphere(position, 0.2f);
         }
 #endif
     }

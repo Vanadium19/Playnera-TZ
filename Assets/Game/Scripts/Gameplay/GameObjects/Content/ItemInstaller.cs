@@ -11,7 +11,7 @@ namespace Game.GameObjects.Content
         [Header("Components")] [SerializeField] private Transform _transform;
         [SerializeField] private Rigidbody2D _rigidbody;
 
-        [Header("Settings")] [SerializeField] private Vector2 _overlapSize;
+        [Header("Settings")] [SerializeField] private ItemParams _params;
 
         [Header("View")] [SerializeField] private ItemView _view;
 
@@ -27,7 +27,7 @@ namespace Game.GameObjects.Content
 
             Container.BindInterfacesTo<Item>()
                 .AsSingle()
-                .WithArguments(_overlapSize)
+                .WithArguments(_params)
                 .NonLazy();
 
             Container.BindInterfacesTo<ItemPresenter>()
@@ -42,11 +42,8 @@ namespace Game.GameObjects.Content
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            if (_transform == null)
-                return;
-
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(_transform.position, _overlapSize);
+            Gizmos.DrawWireCube(_params.Position, _params.Size);
         }
 #endif
     }

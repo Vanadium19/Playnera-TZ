@@ -11,8 +11,8 @@ namespace Game.GameSystems.Controllers
 {
     public class DragAndDropController : MonoBehaviour,
         // IPointerDownHandler,
-        IPointerEnterHandler,
-        IPointerExitHandler,
+        // IPointerEnterHandler,
+        // IPointerExitHandler,
         IBeginDragHandler,
         IDragHandler,
         IEndDragHandler
@@ -21,18 +21,15 @@ namespace Game.GameSystems.Controllers
 
         private IItem _item;
         private IMousePosition _mousePosition;
-        private IGameStateScheduler _gameStateScheduler;
 
         private IDisposable _disposable;
 
         [Inject]
         public void Construct(IItem item,
-            IMousePosition mousePosition,
-            IGameStateScheduler gameStateScheduler)
+            IMousePosition mousePosition)
         {
             _item = item;
             _mousePosition = mousePosition;
-            _gameStateScheduler = gameStateScheduler;
         }
 
         // public void OnPointerDown(PointerEventData eventData)
@@ -40,23 +37,20 @@ namespace Game.GameSystems.Controllers
         //     Debug.Log("OnPointerDown");
         // }
 
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            Debug.Log("OnPointerEnter");
-            _gameStateScheduler.ChangeState(GameState.ReadyToMoveItem);
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            Debug.Log("OnPointerExit");
-            _gameStateScheduler.ChangeState(GameState.CalmState);
-        }
+        // public void OnPointerEnter(PointerEventData eventData)
+        // {
+        //     Debug.Log("OnPointerEnter");
+        // }
+        //
+        // public void OnPointerExit(PointerEventData eventData)
+        // {
+        //     Debug.Log("OnPointerExit");
+        // }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
             Debug.Log("OnBeginDrag");
             _item.Pickup();
-            _gameStateScheduler.ChangeState(GameState.ItemMoving);
             _disposable = _mousePosition.Value.Subscribe(SetItemPosition);
         }
 
@@ -67,7 +61,6 @@ namespace Game.GameSystems.Controllers
         public void OnEndDrag(PointerEventData eventData)
         {
             Debug.Log("OnEndDrag");
-            _gameStateScheduler.ChangeState(GameState.CalmState);
             _disposable?.Dispose();
             _item.Drop();
         }
@@ -76,7 +69,7 @@ namespace Game.GameSystems.Controllers
         {
             position = Vector3.Scale(_axis, position);
 
-            _item.SetPosition(position);
+            _item.SetPositionForced(position);
         }
     }
 }

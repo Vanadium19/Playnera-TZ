@@ -4,6 +4,6 @@ namespace Game.GameObjects.Content
 {
     public interface IShelf
     {
-        public float PositionY { get; }
+        public Vector3 ClampPosition(Vector3 position);
     }
 }

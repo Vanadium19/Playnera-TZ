@@ -12,7 +12,6 @@ namespace Game.Scripts.Gameplay
     {
         public override void InstallBindings()
         {
-            GameStateSchedulerInstaller.Install(Container);
             InputInstaller.Install(Container);
             CameraControllerInstaller.Install(Container);
         }

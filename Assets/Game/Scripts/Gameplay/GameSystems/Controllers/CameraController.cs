@@ -17,11 +17,9 @@ namespace Game.GameSystems.Controllers
         private readonly Transform _cameraTransform;
 
         private IDisposable _disposable;
-
-        private Vector3 _startPosition;
+        private Vector3 _dragPosition;
 
         public CameraController(IMousePosition mousePosition, Transform cameraTransform)
-
         {
             _mousePosition = mousePosition;
             _cameraTransform = cameraTransform;
@@ -38,21 +36,20 @@ namespace Game.GameSystems.Controllers
 
         private void StartCameraMoving()
         {
+            _dragPosition = _mousePosition.CurrentValue;
+
             _disposable = _mousePosition.Value.Subscribe(SetCameraPosition);
         }
 
         private void EndCameraMoving()
         {
-            _startPosition = default;
+            _dragPosition = default;
             _disposable?.Dispose();
         }
 
         private void SetCameraPosition(Vector3 position)
         {
-            if (_startPosition == default)
-                _startPosition = position;
-
-            Vector3 difference = _startPosition - position;
+            Vector3 difference = _dragPosition - position;
             _cameraTransform.position += difference;
         }
 
@@ -66,21 +63,16 @@ namespace Game.GameSystems.Controllers
             System.Buffers.ArrayPool<RaycastHit2D> arrayPool = System.Buffers.ArrayPool<RaycastHit2D>.Shared;
             RaycastHit2D[] results = arrayPool.Rent(ColliderBufferSize);
 
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            int size = Physics2D.RaycastNonAlloc(mousePosition, Vector2.zero, results);
             bool result = true;
+            int size = Physics2D.RaycastNonAlloc(_mousePosition.CurrentValue, Vector2.zero, results);
 
             for (int i = 0; i < size; i++)
             {
                 if (results[i].collider.TryGetComponent(out IEntity entity) && entity.TryGet(out IItem item))
                 {
-                    Debug.Log("Попал В Предмет");
                     result = false;
                 }
             }
-
-            if (result)
-                Debug.Log("Не Попал В Предмет");
 
             arrayPool.Return(results);
             return result;

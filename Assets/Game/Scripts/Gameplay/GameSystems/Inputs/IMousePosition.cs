@@ -5,6 +5,6 @@ namespace Game.Scripts.Gameplay.GameSystems.Inputs
 {
     public interface IMousePosition
     {
-        public Observable<Vector2> Value { get; }
+        public Observable<Vector3> Value { get; }
     }
 }

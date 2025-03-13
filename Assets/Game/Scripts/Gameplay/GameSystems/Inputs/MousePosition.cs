@@ -14,12 +14,12 @@ namespace Game.Scripts.Gameplay.GameSystems.Inputs
             _camera = camera;
         }
 
-        public Observable<Vector2> Value { get; private set; }
+        public Observable<Vector3> Value { get; private set; }
 
         public void Initialize()
         {
             Value = Observable.EveryUpdate()
-                .Select(_ => (Vector2)_camera.ScreenToWorldPoint(Input.mousePosition));
+                .Select(_ => _camera.ScreenToWorldPoint(Input.mousePosition));
         }
     }
 }

@@ -16,6 +16,8 @@ namespace Game.GameSystems.Controllers
         IDragHandler,
         IEndDragHandler
     {
+        private readonly Vector3 _axis = new Vector3(1f, 1f, 0f);
+
         private IItem _item;
         private IMousePosition _mousePosition;
         private IDisposable _disposable;
@@ -45,9 +47,9 @@ namespace Game.GameSystems.Controllers
         public void OnBeginDrag(PointerEventData eventData)
         {
             Debug.Log("OnBeginDrag");
-            
+
             _item.SetKinematic(true);
-            _disposable = _mousePosition.Value.Subscribe(position => _item.SetPosition(position));
+            _disposable = _mousePosition.Value.Subscribe(SetItemPosition);
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -60,6 +62,13 @@ namespace Game.GameSystems.Controllers
             Debug.Log("OnEndDrag");
             _disposable?.Dispose();
             _item.Drop();
+        }
+
+        private void SetItemPosition(Vector3 position)
+        {
+            position = Vector3.Scale(_axis, position);
+
+            _item.SetPosition(position);
         }
     }
 }

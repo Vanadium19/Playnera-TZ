@@ -1,47 +1,58 @@
+using System;
+using Game.Scripts.Gameplay.GameSystems.Inputs;
+using R3;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 namespace Game.GameSystems.Controllers
 {
     public class DragAndDropController : MonoBehaviour,
-        IPointerDownHandler,
-        IPointerEnterHandler,
-        IPointerExitHandler,
+        // IPointerDownHandler,
+        // IPointerEnterHandler,
+        // IPointerExitHandler,
         IBeginDragHandler,
-        IDragHandler,
+        // IDragHandler,
         IEndDragHandler
     {
-        public void OnPointerDown(PointerEventData eventData)
+        private IMousePosition _mousePosition;
+        private IDisposable _disposable;
+
+        [Inject]
+        public void Construct(IMousePosition mousePosition)
         {
-            Debug.Log("OnPointerDown");
+            _mousePosition = mousePosition;
         }
 
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            Debug.Log("OnPointerEnter");
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            Debug.Log("OnPointerExit");
-        }
+        // public void OnPointerDown(PointerEventData eventData)
+        // {
+        //     Debug.Log("OnPointerDown");
+        // }
+        //
+        // public void OnPointerEnter(PointerEventData eventData)
+        // {
+        //     Debug.Log("OnPointerEnter");
+        // }
+        //
+        // public void OnPointerExit(PointerEventData eventData)
+        // {
+        //     Debug.Log("OnPointerExit");
+        // }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
             Debug.Log("OnBeginDrag");
+            _disposable = _mousePosition.Value.Subscribe(position => transform.position = position);
         }
 
-        public void OnDrag(PointerEventData eventData)
-        {
-            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(eventData.position);
-            worldPosition.z = 0;
-            transform.position = worldPosition;
-            Debug.Log("OnDrag");
-        }
+        // public void OnDrag(PointerEventData eventData)
+        // {
+        //     Debug.Log("OnDrag");
+        // }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            Debug.Log("OnEndDrag");
+            _disposable?.Dispose();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Game.GameObjects.Content
     public class Item : IItem, IItemObservable
     {
         private const int ColliderBufferSize = 5;
-        private const float ClampDelay = 0.2f;
+        private const float MoveDelay = 0.2f;
 
         private readonly Transform _transform;
         private readonly Rigidbody2D _rigidbody;
@@ -55,7 +55,7 @@ namespace Game.GameObjects.Content
                     if (entity.TryGet(out IShelf shelf))
                         SetOnShelf(shelf);
                     else if (entity.TryGet(out Floor floor))
-                        SetKinematic();
+                        SetOnFloor();
                 }
             }
 
@@ -68,17 +68,22 @@ namespace Game.GameObjects.Content
             _transform.position = position;
         }
 
-        public void SetPosition(Vector3 position)
-        {
-            SetKinematic();
-            _moveTween = _transform.DOMove(position, ClampDelay).SetEase(Ease.Linear);
-        }
-
         public void SetOnShelf(IShelf shelf)
         {
             Vector3 position = shelf.ClampPosition(_transform.position);
 
             SetPosition(position);
+        }
+
+        public void SetOnFloor()
+        {
+            SetKinematic();
+        }
+
+        private void SetPosition(Vector3 position)
+        {
+            SetKinematic();
+            _moveTween = _transform.DOMove(position, MoveDelay).SetEase(Ease.Linear);
         }
 
         private void SetKinematic()

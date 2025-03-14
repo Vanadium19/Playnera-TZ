@@ -24,7 +24,7 @@ namespace Game.GameSystems.Controllers
             {
                 if (entity.TryGet(out Floor floor))
                 {
-                    _item.SetPosition(other.contacts[0].point);
+                    _item.SetOnFloor();
                 }
             }
         }

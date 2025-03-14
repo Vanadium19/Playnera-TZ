@@ -17,13 +17,6 @@ namespace Game.Modules.Entities
             _container = _context.Container;
         }
 
-        private void OnDestroy()
-        {
-            OnDestroyed?.Invoke(this);
-        }
-
-        public string Id => name;
-
         public T Get<T>()
         {
             return _container.Resolve<T>();
@@ -34,12 +27,6 @@ namespace Game.Modules.Entities
             value = _container.TryResolve<T>();
 
             return value != null;
-        }
-
-        public void Destroy()
-        {
-            gameObject.SetActive(false);
-            OnDestroyed?.Invoke(this);
         }
     }
 }

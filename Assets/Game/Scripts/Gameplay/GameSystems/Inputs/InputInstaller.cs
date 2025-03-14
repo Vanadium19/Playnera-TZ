@@ -7,7 +7,7 @@ namespace Game.GameSystems.Inputs
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesTo<ComputerInput>()
+            Container.BindInterfacesTo<PhoneInput>()
                 .AsSingle()
                 .NonLazy();
 

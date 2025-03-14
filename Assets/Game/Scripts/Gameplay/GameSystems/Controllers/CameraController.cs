@@ -12,6 +12,7 @@ namespace Game.GameSystems.Controllers
     {
         private const int ColliderBufferSize = 5;
 
+        private readonly IInputStrategy _input;
         private readonly IWorldBounds _worldBounds;
         private readonly IMousePosition _mousePosition;
         private readonly Transform _cameraTransform;
@@ -21,8 +22,10 @@ namespace Game.GameSystems.Controllers
 
         public CameraController(IWorldBounds worldBounds,
             IMousePosition mousePosition,
-            Transform cameraTransform)
+            Transform cameraTransform,
+            IInputStrategy input)
         {
+            _input = input;
             _worldBounds = worldBounds;
             _mousePosition = mousePosition;
             _cameraTransform = cameraTransform;
@@ -30,10 +33,10 @@ namespace Game.GameSystems.Controllers
 
         public void LateTick()
         {
-            if (Input.GetMouseButtonDown(0) && CanMove())
+            if (_input.StartClick() && CanMove())
                 StartCameraMoving();
 
-            if (Input.GetMouseButtonUp(0))
+            if (_input.EndClick())
                 EndCameraMoving();
         }
 

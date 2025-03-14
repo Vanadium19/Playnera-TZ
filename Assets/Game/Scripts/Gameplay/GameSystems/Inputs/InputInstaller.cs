@@ -7,6 +7,10 @@ namespace Game.GameSystems.Inputs
     {
         public override void InstallBindings()
         {
+            Container.BindInterfacesTo<ComputerInput>()
+                .AsSingle()
+                .NonLazy();
+
             Container.BindInterfacesTo<MousePosition>()
                 .AsSingle()
                 .WithArguments(Camera.main)

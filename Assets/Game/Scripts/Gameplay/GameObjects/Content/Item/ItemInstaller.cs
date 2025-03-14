@@ -1,7 +1,5 @@
-﻿using System;
-using Game.GameObjects.View;
+﻿using Game.GameObjects.View;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace Game.GameObjects.Content

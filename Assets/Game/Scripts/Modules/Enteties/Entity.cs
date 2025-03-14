@@ -10,19 +10,10 @@ namespace Game.Modules.Entities
 
         private DiContainer _container;
 
-        public event Action<Entity> OnDestroyed;
-
         private void Awake()
         {
             _container = _context.Container;
         }
-
-        private void OnDestroy()
-        {
-            OnDestroyed?.Invoke(this);
-        }
-
-        public string Id => name;
 
         public T Get<T>()
         {
@@ -34,12 +25,6 @@ namespace Game.Modules.Entities
             value = _container.TryResolve<T>();
 
             return value != null;
-        }
-
-        public void Destroy()
-        {
-            gameObject.SetActive(false);
-            OnDestroyed?.Invoke(this);
         }
     }
 }
